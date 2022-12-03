@@ -63,7 +63,7 @@ export const drawLetters = () => {
   const numberIndex = new Set();
 
   while (numberIndex.size !== 10) {
-    // adds random number from zero to 98 maybe we have to add + 1 to include 98
+    // adds random number from zero to 98
     numberIndex.add(Math.floor(Math.random() * weightedPool.length));
     // console.log(numberIndex)
   }
