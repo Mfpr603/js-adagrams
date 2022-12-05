@@ -67,7 +67,7 @@ export const drawLetters = () => {
     numberIndex.add(Math.floor(Math.random() * weightedPool.length));
     // console.log(numberIndex)
   }
-  let hand = [];
+  const hand = [];
   // takes the numbers of the numberIndex list and uses them
   for (const num of numberIndex) {
     // console.log(weightedPool[num])
