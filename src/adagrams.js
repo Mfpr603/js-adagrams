@@ -26,30 +26,7 @@ const LETTER_POOL = {
   Y: 2,
   Z: 1,
 };
-// const letters = ['A','B','C','D','E','F','G','H',
-// 'I','J','K','L','M','N','O','P','Q','R','S',
-// 'T','U','V','W','X','Y','Z'];
 
-// const weights = [9,2,2,4,12,2,3,2,9,1,1,4,2,6,8,2,1,6,4,6,4,2,2,1,2,1];
-// console.log(weights.sum)
-
-// const randomLetter = function (){
-//   // finds total weight
-//   let totalWeight = weights.reduce((a, b) => a + b, 0);
-
-//   // pick random number between 0 and total weight - 1
-//   let randomNumber = Math.floor(Math.random() * totalWeight);
-
-//   // based off randomNumber pick a letter
-//   for (let i = 0; i < letters.length; i++){
-//     // subtract 9 then 2 etc. to find letter
-//     random -= weights[i];
-//     // return correct letter
-//     if (random < 0) {
-//       return letters[i];
-//     }
-//   }
-// };
 const weightedPool = [];
 let i = 0;
 for (i in LETTER_POOL) {
@@ -60,7 +37,8 @@ for (i in LETTER_POOL) {
   // console.log(weightedPool)
 }
 export const drawLetters = () => {
-  const numberIndex = new Set();
+  // used a set because it does not allow duplicate indices 
+  const numberIndex = new Set(); 
 
   while (numberIndex.size !== 10) {
     // adds random number from zero to 98
@@ -79,6 +57,10 @@ export const drawLetters = () => {
 
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
+  // makes a copy of the lettersInHand array 
+    const lettersInHandCopy = [...lettersInHand];
+    for (const letter of input)
+    
 };
 
 export const scoreWord = (word) => {
