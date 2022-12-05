@@ -58,18 +58,23 @@ export const drawLetters = () => {
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
 
-  // makes a copy of the lettersInHand array 
+  // make a copy of our hand
   const lettersInHandCopy = [...lettersInHand];
 
-  for (const letter of input) {
+  // if letter is in our list, remove it. if it isn't, return false
+  input.forEach((letter) => {
     if (letter in lettersInHandCopy) {
-      // remove letter from our list
-      
+      // remove the letter from our pool
+      for (let i = 0; i < lettersInHandCopy.length; i++) {
+        if (lettersInHandCopy[i] === letter) {
+          lettersInHandCopy.splice(i, 1);
+          break;
+        };
+      };
     } else {
-      // if letter isn;t in our list, return false
       return false;
-    }
-  }
+    };
+  });
 
   return true;
 };
