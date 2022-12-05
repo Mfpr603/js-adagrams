@@ -58,12 +58,19 @@ export const drawLetters = () => {
 export const usesAvailableLetters = (input, lettersInHand) => {
   // Implement this method for wave 2
 
+  // change input from string to array
+  const inputArray = input.split("");
+
   // make a copy of our hand
   const lettersInHandCopy = [...lettersInHand];
 
-  // if letter is in our list, remove it. if it isn't, return false
-  input.forEach((letter) => {
-    if (letter in lettersInHandCopy) {
+  // set a variable to hold true or false
+  let usesAvailableLetters = true;
+
+  // if letter is in our hand, remove it. if it isn't, return false
+  inputArray.forEach((letter) => {
+
+    if (lettersInHandCopy.includes(letter)) {
       // remove the letter from our pool
       for (let i = 0; i < lettersInHandCopy.length; i++) {
         if (lettersInHandCopy[i] === letter) {
@@ -72,11 +79,11 @@ export const usesAvailableLetters = (input, lettersInHand) => {
         };
       };
     } else {
-      return false;
+      usesAvailableLetters = false;
     };
   });
 
-  return true;
+  return usesAvailableLetters;
 };
 
 export const scoreWord = (word) => {
