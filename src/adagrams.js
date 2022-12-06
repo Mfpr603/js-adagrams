@@ -66,8 +66,8 @@ for (i in LETTER_POOL) {
   // console.log(weightedPool)
 }
 export const drawLetters = () => {
-  // used a set because it does not allow duplicate indices 
-  const numberIndex = new Set(); 
+  // used a set because it does not allow duplicate indices
+  const numberIndex = new Set();
 
   while (numberIndex.size !== 10) {
     // adds random number from zero to 98
