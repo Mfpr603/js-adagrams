@@ -137,4 +137,85 @@ export const scoreWord = (word) => {
 
 export const highestScoreFrom = (words) => {
   // Implement this method for wave 4
+  // single object with word and its value
+  /* 
+  tie breaking rules
+  return first word w length 10 
+  return shortest word 
+  return first word
+  */
+  /*
+  create object of words and values (decided to skip it)
+  find highest score  (check!)
+  list of words w highest score (check!)
+  if list has one element ---> return element (check!)
+  if list of words contains a word with len === 10 , return word (check!)
+  find shortest word in list, return shortest word
+  */
+
+  // find highest score
+  let highScore = 0;
+  words.forEach((word) => {
+    let wordScore = scoreWord(word);
+    if (wordScore > highScore) {
+      highScore = wordScore;
+    }
+  });
+
+  // make a list of all words w/ highest score
+  let highestScoringWords = [];
+  words.forEach((word) => {
+    let wordScore = scoreWord(word);
+    if (wordScore === highScore) {
+      highestScoringWords.push(word);
+    }
+  });
+
+  // figure out what to return
+  let result = {};
+
+  // if list has only one element, return element
+  if (highestScoringWords.length === 1) {
+    console.log(`the highest scoring word is ${highestScoringWords[0]}`);
+    result["word"] = highestScoringWords[0];
+    result["score"] = highScore;
+    return result;
+  }
+
+  let word = "";
+  for (let i = 0; i < highestScoringWords.length; i++) {
+    word = highestScoringWords[i];
+    if (word.length === 10) {
+      console.log({ word: word, score: highScore });
+      result["word"] = word;
+      result["score"] = highScore;
+      return result;
+    }
+  }
+
+  // if we found a 10-long word, return it. otherwise, keep moving
+  console.log(result);
+  if (Object.keys(result).length !== 0) {
+    console.log(`our result is ${result}`);
+    return result;
+  }
+
+  // find length of the shortest word
+  let shortestLength = 100;
+  highestScoringWords.forEach((word) => {
+    if (word.length < shortestLength) {
+      shortestLength = word.length;
+    }
+  });
+
+  // find shortest word and return it
+  highestScoringWords.forEach((word) => {
+    if (word.length === shortestLength) {
+      console.log({ word: word, score: highScore });
+      result["word"] = word;
+      result["score"] = highScore;
+    }
+  });
+
+  return result;
 };
