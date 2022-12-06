@@ -98,18 +98,17 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 
   // if letter is in our hand, remove it. if it isn't, return false
   inputArray.forEach((letter) => {
-
     if (lettersInHandCopy.includes(letter)) {
       // remove the letter from our pool
       for (let i = 0; i < lettersInHandCopy.length; i++) {
         if (lettersInHandCopy[i] === letter) {
           lettersInHandCopy.splice(i, 1);
           break;
-        };
-      };
+        }
+      }
     } else {
       usesAvailableLetters = false;
-    };
+    }
   });
 
   return usesAvailableLetters;
@@ -117,7 +116,7 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3
-  
+
   // change input from string to array
   const word_array = word.split("");
 
@@ -125,16 +124,15 @@ export const scoreWord = (word) => {
   let score = 0;
   word_array.forEach((letter) => {
     let letter_score = LETTER_SCORES[letter.toUpperCase()];
-    score = score + letter_score
+    score = score + letter_score;
   });
 
   // add length bonus
   if (word.length >= 7) {
     score = score + 8;
-  };
+  }
 
-  return score
-
+  return score;
 };
 
 export const highestScoreFrom = (words) => {
