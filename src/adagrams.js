@@ -27,6 +27,35 @@ const LETTER_POOL = {
   Z: 1,
 };
 
+const LETTER_SCORES = {
+  A: 1,
+  B: 3,
+  C: 3,
+  D: 2,
+  E: 1,
+  F: 4,
+  G: 2,
+  H: 4,
+  I: 1,
+  J: 8,
+  K: 5,
+  L: 1,
+  M: 3,
+  N: 1,
+  O: 1,
+  P: 3,
+  Q: 10,
+  R: 1,
+  S: 1,
+  T: 1,
+  U: 1,
+  V: 4,
+  W: 4,
+  X: 8,
+  Y: 4,
+  Z: 10,
+};
+
 const weightedPool = [];
 let i = 0;
 for (i in LETTER_POOL) {
@@ -88,6 +117,24 @@ export const usesAvailableLetters = (input, lettersInHand) => {
 
 export const scoreWord = (word) => {
   // Implement this method for wave 3
+  
+  // change input from string to array
+  const word_array = word.split("");
+
+  // loop through each letter, add its score
+  let score = 0;
+  word_array.forEach((letter) => {
+    let letter_score = LETTER_SCORES[letter.toUpperCase()];
+    score = score + letter_score
+  });
+
+  // add length bonus
+  if (word.length >= 7) {
+    score = score + 8;
+  };
+
+  return score
+
 };
 
 export const highestScoreFrom = (words) => {
