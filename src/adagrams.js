@@ -57,15 +57,6 @@ const LETTER_SCORES = {
 };
 
 
-// loop through keys of LETTER_POOL object
-// const weightedPool = []
-// for (let letter in LETTER_POOL) {
-//   let letterFreq = LETTER_POOL[letter]
-//   // push letter to weightedPool, repeat letterFreq times
-//   weightedPool.push(...letter.repeat(letterFreq));
-// }
-
-
 // helper function to build weighted letter pool
 const makeWeightedPool = () => {
   const weightedPool = []
@@ -80,44 +71,40 @@ const makeWeightedPool = () => {
 
 ////////// WAVE 1 //////////
 export const drawLetters = () => {
+
+  // call helper function
   let weightedPool = makeWeightedPool();
 
-
-
-  // used a set because it does not allow duplicate indices
-  const numberIndex = new Set();
-
-  while (numberIndex.size !== 10) {
-    // adds random number from zero to 98
-    numberIndex.add(Math.floor(Math.random() * weightedPool.length));
-    // console.log(numberIndex)
+  // fill randomIndices with 10 random indices from weightedPool
+  const randomIndices = new Set();
+  while (randomIndices.size < 10) {
+    let randomIndex = Math.floor(Math.random() * weightedPool.length)
+    randomIndices.add(randomIndex);
   }
-  const hand = [];
-  // takes the numbers of the numberIndex list and uses them
-  for (const num of numberIndex) {
-    // console.log(weightedPool[num])
-    hand.push(weightedPool[num]);
-    // return hand;
+
+  // use the random indices to get letters
+  const lettersInHand = [];
+  for (let index of randomIndices) {
+    lettersInHand.push(weightedPool[index]);
   }
-  return hand;
+
+  return lettersInHand;
 };
 
+
+////////// WAVE 2 //////////
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
 
   // change input from string to array
-  const inputArray = input.split("");
+  const lettersPlayed = input.split("");
 
   // make a copy of our hand
   const lettersInHandCopy = [...lettersInHand];
 
-  // set a variable to hold true or false
-  let usesAvailableLetters = true;
-
   // if letter is in our hand, remove it. if it isn't, return false
-  inputArray.forEach((letter) => {
+  for (let letter of lettersPlayed) {
     if (lettersInHandCopy.includes(letter)) {
-      // remove the letter from our pool
+      // remove one letter from our hand, then break out
       for (let i = 0; i < lettersInHandCopy.length; i++) {
         if (lettersInHandCopy[i] === letter) {
           lettersInHandCopy.splice(i, 1);
@@ -125,115 +112,84 @@ export const usesAvailableLetters = (input, lettersInHand) => {
         }
       }
     } else {
-      usesAvailableLetters = false;
+      return false;
     }
-  });
-
-  return usesAvailableLetters;
-};
-
-export const scoreWord = (word) => {
-  // Implement this method for wave 3
-
-  // change input from string to array
-  const word_array = word.split("");
-
-  // loop through each letter, add its score
-  let score = 0;
-  word_array.forEach((letter) => {
-    let letter_score = LETTER_SCORES[letter.toUpperCase()];
-    score = score + letter_score;
-  });
-
-  // add length bonus
-  if (word.length >= 7) {
-    score = score + 8;
   }
 
-  return score;
+  // if all letters were in our hand, return true
+  return true;
 };
 
+
+////////// WAVE 3 //////////
+export const scoreWord = (word) => {
+
+  // change input from string to array
+  const wordLetters = word.split("");
+
+  // get the score of each letter and add to wordScore
+  let wordScore = 0;
+  for ( let letter of wordLetters) {
+    // get letter score from upper- or lowercase letters
+    let letterScore = LETTER_SCORES[letter.toUpperCase()];
+    wordScore = wordScore + letterScore;
+  }
+
+  // add length bonus to wordScore
+  if (wordLetters.length >= 7) {
+    wordScore = wordScore + 8;
+  }
+
+  return wordScore;
+};
+
+
+////////// WAVE 4 ///////////
 export const highestScoreFrom = (words) => {
-  // Implement this method for wave 4
-  // single object with word and its value
-  /* 
-  tie breaking rules
-  return first word w length 10 
-  return shortest word 
-  return first word
-  */
-  /*
-  create object of words and values (decided to skip it)
-  find highest score  (check!)
-  list of words w highest score (check!)
-  if list has one element ---> return element (check!)
-  if list of words contains a word with len === 10 , return word (check!)
-  find shortest word in list, return shortest word
-  */
 
   // find highest score
   let highScore = 0;
-  words.forEach((word) => {
+  for (let word of words) {
+    // call function from wave 3
     let wordScore = scoreWord(word);
     if (wordScore > highScore) {
       highScore = wordScore;
     }
-  });
+  }
 
   // make a list of all words w/ highest score
   let highestScoringWords = [];
-  words.forEach((word) => {
-    let wordScore = scoreWord(word);
+  for (let word of words) {
+    let wordScore = scoreWord(word)
     if (wordScore === highScore) {
       highestScoringWords.push(word);
     }
-  });
+  }
 
-  // figure out what to return
-  let result = {};
-
-  // if list has only one element, return element
+  // if highestScoringWords has only one word, return the word
   if (highestScoringWords.length === 1) {
-    console.log(`the highest scoring word is ${highestScoringWords[0]}`);
-    result["word"] = highestScoringWords[0];
-    result["score"] = highScore;
-    return result;
+    return {word : highestScoringWords[0], score : highScore};
   }
 
-  let word = "";
-  for (let i = 0; i < highestScoringWords.length; i++) {
-    word = highestScoringWords[i];
+  // if a word in highestScoringWords has 10 letters, return the word
+  for (let word of highestScoringWords) {
     if (word.length === 10) {
-      console.log({ word: word, score: highScore });
-      result["word"] = word;
-      result["score"] = highScore;
-      return result;
+      return {word : word, score : highScore};
     }
-  }
-
-  // if we found a 10-long word, return it. otherwise, keep moving
-  console.log(result);
-  if (Object.keys(result).length !== 0) {
-    console.log(`our result is ${result}`);
-    return result;
-  }
+  };
 
   // find length of the shortest word
   let shortestLength = 100;
-  highestScoringWords.forEach((word) => {
+  for (let word of highestScoringWords) {
     if (word.length < shortestLength) {
       shortestLength = word.length;
-    }
-  });
+    };
+  };
 
   // find shortest word and return it
-  highestScoringWords.forEach((word) => {
+  for (let word of highestScoringWords) {
     if (word.length === shortestLength) {
-      console.log({ word: word, score: highScore });
-      result["word"] = word;
-      result["score"] = highScore;
+      return {word : word, score : highScore};
     }
-  });
-
-  return result;
+  };
 };
