@@ -55,30 +55,28 @@ const LETTER_SCORES = {
   Y: 4,
   Z: 10,
 };
-
+// my copy
 
 // helper function to build weighted letter pool
 const makeWeightedPool = () => {
-  const weightedPool = []
+  const weightedPool = [];
   for (let letter in LETTER_POOL) {
-    let letterFreq = LETTER_POOL[letter]
+    let letterFreq = LETTER_POOL[letter];
     // push letter to weightedPool, repeat letterFreq times
     weightedPool.push(...letter.repeat(letterFreq));
   }
   return weightedPool;
-}
-
+};
 
 ////////// WAVE 1 //////////
 export const drawLetters = () => {
-
   // call helper function
   let weightedPool = makeWeightedPool();
 
   // fill randomIndices with 10 random indices from weightedPool
   const randomIndices = new Set();
   while (randomIndices.size < 10) {
-    let randomIndex = Math.floor(Math.random() * weightedPool.length)
+    let randomIndex = Math.floor(Math.random() * weightedPool.length);
     randomIndices.add(randomIndex);
   }
 
@@ -91,10 +89,8 @@ export const drawLetters = () => {
   return lettersInHand;
 };
 
-
 ////////// WAVE 2 //////////
 export const usesAvailableLetters = (input, lettersInHand) => {
-
   // change input from string to array
   const lettersPlayed = input.split("");
 
@@ -120,16 +116,14 @@ export const usesAvailableLetters = (input, lettersInHand) => {
   return true;
 };
 
-
 ////////// WAVE 3 //////////
 export const scoreWord = (word) => {
-
   // change input from string to array
   const wordLetters = word.split("");
 
   // get the score of each letter and add to wordScore
   let wordScore = 0;
-  for ( let letter of wordLetters) {
+  for (let letter of wordLetters) {
     // get letter score from upper- or lowercase letters
     let letterScore = LETTER_SCORES[letter.toUpperCase()];
     wordScore = wordScore + letterScore;
@@ -143,10 +137,8 @@ export const scoreWord = (word) => {
   return wordScore;
 };
 
-
 ////////// WAVE 4 ///////////
 export const highestScoreFrom = (words) => {
-
   // find highest score
   let highScore = 0;
   for (let word of words) {
@@ -160,7 +152,7 @@ export const highestScoreFrom = (words) => {
   // make a list of all words w/ highest score
   let highestScoringWords = [];
   for (let word of words) {
-    let wordScore = scoreWord(word)
+    let wordScore = scoreWord(word);
     if (wordScore === highScore) {
       highestScoringWords.push(word);
     }
@@ -168,28 +160,28 @@ export const highestScoreFrom = (words) => {
 
   // if highestScoringWords has only one word, return the word
   if (highestScoringWords.length === 1) {
-    return {word : highestScoringWords[0], score : highScore};
+    return { word: highestScoringWords[0], score: highScore };
   }
 
   // if a word in highestScoringWords has 10 letters, return the word
   for (let word of highestScoringWords) {
     if (word.length === 10) {
-      return {word : word, score : highScore};
+      return { word: word, score: highScore };
     }
-  };
+  }
 
   // find length of the shortest word
   let shortestLength = 100;
   for (let word of highestScoringWords) {
     if (word.length < shortestLength) {
       shortestLength = word.length;
-    };
-  };
+    }
+  }
 
   // find shortest word and return it
   for (let word of highestScoringWords) {
     if (word.length === shortestLength) {
-      return {word : word, score : highScore};
+      return { word: word, score: highScore };
     }
-  };
+  }
 };
