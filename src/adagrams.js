@@ -56,16 +56,34 @@ const LETTER_SCORES = {
   Z: 10,
 };
 
-const weightedPool = [];
-let i = 0;
-for (i in LETTER_POOL) {
-  const letterFreq = LETTER_POOL[i];
-  // console.log(i)
-  weightedPool.push(...i.repeat(letterFreq));
 
-  // console.log(weightedPool)
+// loop through keys of LETTER_POOL object
+// const weightedPool = []
+// for (let letter in LETTER_POOL) {
+//   let letterFreq = LETTER_POOL[letter]
+//   // push letter to weightedPool, repeat letterFreq times
+//   weightedPool.push(...letter.repeat(letterFreq));
+// }
+
+
+// helper function to build weighted letter pool
+const makeWeightedPool = () => {
+  const weightedPool = []
+  for (let letter in LETTER_POOL) {
+    let letterFreq = LETTER_POOL[letter]
+    // push letter to weightedPool, repeat letterFreq times
+    weightedPool.push(...letter.repeat(letterFreq));
+  }
+  return weightedPool;
 }
+
+
+////////// WAVE 1 //////////
 export const drawLetters = () => {
+  let weightedPool = makeWeightedPool();
+
+
+
   // used a set because it does not allow duplicate indices
   const numberIndex = new Set();
 
